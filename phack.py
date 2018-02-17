@@ -57,10 +57,20 @@ def rep_test_ttest(nrep,nqs,reps):
     pval_vec = np.array(pval_vec)
     return np.mean(pval_vec < .05)
 
+def np_array_flt_int(ar):
+    return np.array([int(val) for val in ar])
+
 d = np.array(deal_with_data(rd))
 nrows = d.shape[0]
 ncols = d.shape[1]
 # print(d.shape)
-print(d[1:nrows,2])
-# for i in range(ncols - 2):
-#     ttest()
+yrep = d[:,2] == 'Yes'
+nrep = d[:,2] == 'No'
+print(yrep)
+print(nrep)
+print(ncols)
+for i in range(3, ncols):
+    r1 = np_array_flt_int(d[yrep,i])
+    r2 = np_array_flt_int(d[nrep,i])
+    t, p = ttest(r1, r2)
+    print(p)
