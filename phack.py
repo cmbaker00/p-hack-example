@@ -26,6 +26,7 @@ def deal_with_data(resp):
             nspt = int(nspt)
         if nspt > lb:
             output.append(c_row)
+            print(c_row)
             c_row = []
             # flag = 1
             csp = lb + 1
@@ -35,9 +36,10 @@ def deal_with_data(resp):
             continue
         # print(resp[csp:nspt])
         c_row.append(resp[csp:nspt])
-        csp = nspt + 1
         if nspt == len(resp):
+            output.append(c_row)
             flag = 1
+        csp = nspt + 1
     return output
 
 def test_ttest(nrep,nqs):
@@ -57,5 +59,10 @@ def rep_test_ttest(nrep,nqs,reps):
     pval_vec = np.array(pval_vec)
     return np.mean(pval_vec < .05)
 
-d = deal_with_data(rd)
-print(np.array(d))
+d = np.array(deal_with_data(rd))
+nrows = d.shape[0]
+ncols = d.shape[1]
+# print(d.shape)
+print(d[1:nrows,2])
+# for i in range(ncols - 2):
+#     ttest()
