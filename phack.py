@@ -26,9 +26,7 @@ def deal_with_data(resp):
             nspt = int(nspt)
         if nspt > lb:
             output.append(c_row)
-            print(c_row)
             c_row = []
-            # flag = 1
             csp = lb + 1
             lb = resp.find('\n',csp)
             if lb == -1:
