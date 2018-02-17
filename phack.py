@@ -3,20 +3,42 @@ from scipy.stats import ttest_ind as ttest
 import requests
 import numpy as np
 
-response = requests.get('https://docs.google.com/spreadsheet/ccc?key=1BP4mcPosl2V5U_Q9HwJ9VriwdSS4LaSMXILXsEOPKfA&output=csv')
+response = requests.get('https://docs.google.com/spreadsheet/ccc?key=18ErdR3Vs3hKYYPQOoAxQ2YNwvACTJzK5iwx37UOQbOc&output=csv')
 rd = response.content.decode()
 
 def deal_with_data(resp):
+    output = []
     lb = resp.find('\n')
     flag = 0
     csp = 0
+    c_row = []
     while flag == 0:
-        nspt = resp.find(',',csp)
-        print(resp[csp:nspt])
-        csp = nspt + 1
+        nspt_com = resp.find(',',csp)
+        if nspt_com == -1:
+            nspt_com = np.inf
+        nspt_r = resp.find('\r',csp)
+        if nspt_r == -1:
+            nspt_r = np.inf
+        nspt = np.min([nspt_com, nspt_r])
+        if nspt == np.inf:
+            nspt = len(resp)
+        else:
+            nspt = int(nspt)
         if nspt > lb:
+            output.append(c_row)
+            c_row = []
+            # flag = 1
+            csp = lb + 1
+            lb = resp.find('\n',csp)
+            if lb == -1:
+                lb = len(resp) + 1
+            continue
+        # print(resp[csp:nspt])
+        c_row.append(resp[csp:nspt])
+        csp = nspt + 1
+        if nspt == len(resp):
             flag = 1
-            break
+    return output
 
 def test_ttest(nrep,nqs):
     pvec = []
@@ -35,4 +57,5 @@ def rep_test_ttest(nrep,nqs,reps):
     pval_vec = np.array(pval_vec)
     return np.mean(pval_vec < .05)
 
-deal_with_data(rd)
+d = deal_with_data(rd)
+print(np.array(d))
