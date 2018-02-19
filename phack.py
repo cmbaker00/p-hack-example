@@ -3,7 +3,9 @@ from scipy.stats import ttest_ind as ttest
 import requests
 import numpy as np
 
-response = requests.get('https://docs.google.com/spreadsheet/ccc?key=18ErdR3Vs3hKYYPQOoAxQ2YNwvACTJzK5iwx37UOQbOc&output=csv')
+spreadsheet_id = '18ErdR3Vs3hKYYPQOoAxQ2YNwvACTJzK5iwx37UOQbOc'
+
+response = requests.get('https://docs.google.com/spreadsheet/ccc?key=' + spreadsheet_id + '&output=csv')
 rd = response.content.decode()
 
 def deal_with_data(resp):
