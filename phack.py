@@ -42,8 +42,8 @@ def deal_with_data(resp):
 
 def test_ttest(nrep,nqs):
     pvec = []
-    g1 = np.random.random([nrep,nqs])
-    g2 = np.random.random([nrep,nqs])
+    g1 = np.round(5*np.random.random([nrep,nqs]))
+    g2 = np.round(5*np.random.random([nrep,nqs]))
     for i in range(nqs):
         t,p = ttest(g1[:,i],g2[:,i])
         pvec.append(p)
@@ -73,4 +73,7 @@ for i in range(3, ncols):
     r1 = np_array_flt_int(d[yrep,i])
     r2 = np_array_flt_int(d[nrep,i])
     t, p = ttest(r1, r2)
-    print(p)
+    print("""
+    {0}, y ave: {1}, n ave: {2}, pvalue: {3}""".format(d[0,i], np.mean(r1), np.mean(r2), p))
+
+# print(rep_test_ttest(20, 30, 5000))
