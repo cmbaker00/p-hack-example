@@ -89,8 +89,35 @@ def ttest_single_split(data, split_index):
                   )
 
 
+def perfect_pizza(data):
+    data[data == 'Yes'] = 1
+    data[data == 'No'] = 0
+    tf_data = data[1:data.shape[0],:].astype(np.float)
+    ave_like = np.mean(np.array(tf_data),0)
+    best_opts = np.where(np.max(ave_like) == ave_like)
+    best_opt = best_opts[0][0]
+    print(data[0, best_opt])
+    flag = 1
+    toppings = [best_opt]
+    while flag == 1:
+        tf_data = tf_data[tf_data[:,toppings[-1]] == 1, :]
+        tf_data[:, toppings[-1]] = 0
+        ave_like = np.mean(np.array(tf_data),0)
+        if np.max(ave_like) > 0.5:
+            best_opts = np.where(np.max(ave_like) == ave_like)
+            best_opt = best_opts[0][0]
+            print(data[0, best_opt])
+            toppings.append(best_opt)
+        else:
+            return
+
+
+    # print(d)
+
 d = np.array(deal_with_data(rd))
 d = d[:, 1:d.shape[1]]
 cols_to_test = range(d.shape[1])
 for i in cols_to_test:
     ttest_single_split(d, i)
+
+perfect_pizza(d)
