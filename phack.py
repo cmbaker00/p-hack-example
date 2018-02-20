@@ -75,6 +75,8 @@ def ttest_single_split(data, split_index):
         n_data = data[n_index, ii] == 'Yes'
         if len(n_data) < 2 or len(y_data) < 2:
             continue
+        if (all(y_data == True) or all(y_data == False)) and (all(n_data == True) or all(n_data == False)):
+            continue
         tvalue, pvalue = ttest(y_data, n_data)
         if pvalue < .05 and tvalue != -np.inf:
             print("""
