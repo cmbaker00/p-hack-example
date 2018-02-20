@@ -88,25 +88,8 @@ def ttest_single_split(data, split_index):
             """.format(data[0, split_index], np.round(100*np.mean(y_data),2), data[0, i], np.round(100*np.mean(n_data),2), np.round(pvalue,2)
                   )
                   )
-            1
 d = np.array(deal_with_data(rd))
 d = d[:,1:d.shape[1]]
-nrows = d.shape[0]
-ncols = d.shape[1]
-# print(d.shape)
-yrep = d[:,2] == 'Yes'
-nrep = d[:,2] == 'No'
-# print(yrep)
-# print(nrep)
-# print(ncols)
-#
-# for i in range(3, ncols):
-#     r1 = np_array_flt_int(d[yrep,i])
-#     r2 = np_array_flt_int(d[nrep,i])
-#     t, p = ttest(r1, r2)
-#     print("""
-#     {0}, y ave: {1}, n ave: {2}, pvalue: {3}""".format(d[0,i], np.mean(r1), np.mean(r2), p))
-
-# print(rep_test_ttest(20, 30, 5000))
-for i in range(ncols):
+cols_to_test = range(d.shape[1])
+for i in cols_to_test:
     ttest_single_split(d, i)
