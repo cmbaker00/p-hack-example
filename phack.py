@@ -2,7 +2,7 @@ from scipy.stats import ttest_ind as ttest
 import requests
 import numpy as np
 
-spreadsheet_id = '1oomfOjU8asC6aB-s-bffhvqzsA9QtdJn8RTU3anmLe0'
+spreadsheet_id = '13dATcv4isFE4zJNmKXWhYXVEOLkHKqmSxYeAymKNXh0' #spreadsheet must be public
 
 response = requests.get('https://docs.google.com/spreadsheet/ccc?key=' + spreadsheet_id + '&output=csv')
 rd = response.content.decode()
@@ -103,7 +103,7 @@ def perfect_pizza(data):
         tf_data = tf_data[tf_data[:,toppings[-1]] == 1, :]
         tf_data[:, toppings[-1]] = 0
         ave_like = np.mean(np.array(tf_data),0)
-        if np.max(ave_like) > 0.5:
+        if np.max(ave_like) > 0.6:
             best_opts = np.where(np.max(ave_like) == ave_like)
             best_opt = best_opts[0][0]
             print(data[0, best_opt])
@@ -120,4 +120,4 @@ cols_to_test = range(d.shape[1])
 for i in cols_to_test:
     ttest_single_split(d, i)
 
-perfect_pizza(d)
+perfect_pizza(d) #runs some code to generate the most popular combination of toppings
